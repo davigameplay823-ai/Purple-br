@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purple-BR — Servidor Customizado de Among Us</title>
+    <style>
+        body {
+            background-color: #120e24;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #1b1536;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            border: 2px solid #6c5ce7;
+        }
+        h1 { color: #a29bfe; margin-bottom: 5px; }
+        p { color: #b2bec3; font-size: 14px; }
+        .status-box {
+            background: #251c4a;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .online { color: #00b894; }
+        .offline { color: #d63031; }
+        .btn {
+            display: block;
+            background: #6c5ce7;
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.4);
+        }
+        .btn:active { background: #5649c0; }
+        .instructions {
+            text-align: left;
+            background: #15102a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 25px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .instructions ol { margin: 5px 0 0 20px; padding: 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🔮 Purple-BR</h1>
+    <p>Região personalizada com modos e funções especiais</p>
+
+    <!-- Painel de Status do Servidor -->
+    <div class="status-box">
+        Status: <span id="server-status" class="offline">Verificando...</span><br>
+        <span id="player-count" style="font-size: 13px; font-weight: normal; color: #b2bec3;"></span>
+    </div>
+
+    <!-- Botão de Instalação Automática -->
+    <a href="#" id="download-link" class="btn">📥 BAIXAR REGIÃO (Instalar no Celular)</a>
+
+    <div class="instructions">
+        <strong>📌 Como instalar pelo celular:</strong>
+        <ol>
+            <li>Clique no botão acima para baixar o arquivo <code>regionInfo.json</code>.</li>
+            <li>Abra o app <b>ZArchiver</b> e vá em Downloads.</li>
+            <li>Copie o arquivo baixado.</li>
+            <li>Cole em: <code>Android > data > com.innersloth.spacemafia > files</code> (Substitua se pedir).</li>
+            <li>Abra o Among Us, clique no <b>Globo</b> e selecione <b>Purple-BR</b>!</li>
+        </ol>
+    </div>
+</div>
+
+<script>
+    // Configuração do IP do seu servidor (mude para o IP real quando ligar o server.js)
+    const SERVER_IP = "127.0.0.1"; 
+    const SERVER_PORT = 22023;
+
+    // Configura o botão para gerar o arquivo regionInfo.json automaticamente para o usuário
+    const regionData = {
+        CurrentRegionIdx: 3,
+        Regions: [{
+            $type: "StaticRegionInfo, amongus",
+            Name: "Purple-BR",
+            PingHost: SERVER_IP,
+            Servers: [{ Name: "Principal", Ip: SERVER_IP, Port: SERVER_PORT, UseDtls: false }]
+        }]
+    };
+
+    const blob = new Blob([JSON.stringify(regionData, null, 2)], { type: "application/json" });
+    document.getElementById('download-link').href = URL.createObjectURL(blob);
+    document.getElementById('download-link').download = "regionInfo.json";
+
+    // Simulação de leitura de status (Sistemas reais buscam um arquivo server.json atualizado pelo servidor)
+    setTimeout(() => {
+        const statusEl = document.getElementById('server-status');
+        statusEl.innerText = "ONLINE";
+        statusEl.className = "online";
+        document.getElementById('player-count').innerText = "Jogadores: 0 / 15";
+    }, 1000);
+</script>
+
+</body>
+</html>
